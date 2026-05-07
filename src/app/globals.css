@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   EDXR design tokens
+   --------------------------------------------------------------------------
+   Aesthetic: warm workshop meets digital studio. Cream canvas, terracotta
+   primary, electric teal accent for the XR/tech side, hand-annotated touches.
+   ========================================================================== */
+@theme {
+  /* Palette */
+  --color-cream: #fbf7f0;
+  --color-parchment: #f4ecdd;
+  --color-tan: #e5d9c1;
+  --color-ink: #1f1a14;
+  --color-ink-soft: #5c544a;
+  --color-terracotta: #d4583c;
+  --color-terracotta-dark: #a8401e;
+  --color-teal: #1fb89a;
+  --color-teal-dark: #14826d;
+  --color-honey: #f4a53f;
+
+  /* Typography */
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052, serif;
+  --font-body: "Manrope", ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Radii */
+  --radius-card: 18px;
+  --radius-tag: 999px;
+}
+
+/* Smooth font rendering and base setup */
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  /* subtle paper texture via layered radial gradients */
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(31, 26, 20, 0.025) 1px, transparent 0),
+    radial-gradient(1px 1px at 70% 80%, rgba(31, 26, 20, 0.02) 1px, transparent 0),
+    radial-gradient(1px 1px at 40% 60%, rgba(31, 26, 20, 0.015) 1px, transparent 0);
+  background-size: 220px 220px, 320px 320px, 180px 180px;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-terracotta);
+  color: var(--color-cream);
+}
+
+/* Display headings — Fraunces shines with optical SOFT axis */
+.font-display {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 0;
+  letter-spacing: -0.02em;
+}
+
+.font-display-italic {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+  letter-spacing: -0.01em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01";
+}
+
+/* Marker highlight — applied to a span to feel hand-drawn */
+.marker {
+  background-image: linear-gradient(
+    180deg,
+    transparent 55%,
+    color-mix(in oklab, var(--color-honey) 70%, transparent) 55%,
+    color-mix(in oklab, var(--color-honey) 70%, transparent) 92%,
+    transparent 92%
+  );
+  padding: 0 0.05em;
+  border-radius: 2px;
+}
+
+.marker-teal {
+  background-image: linear-gradient(
+    180deg,
+    transparent 55%,
+    color-mix(in oklab, var(--color-teal) 35%, transparent) 55%,
+    color-mix(in oklab, var(--color-teal) 35%, transparent) 92%,
+    transparent 92%
+  );
+  padding: 0 0.05em;
+  border-radius: 2px;
+}
+
+/* Tape — used to give student work cards a workshop feel */
+.tape {
+  position: absolute;
+  top: -10px;
+  width: 64px;
+  height: 18px;
+  background: color-mix(in oklab, var(--color-honey) 60%, white);
+  opacity: 0.85;
+  box-shadow: 0 1px 2px rgba(31, 26, 20, 0.08);
+  transform: rotate(-3deg);
+}
+
+/* Underline that draws in on hover */
+.underline-grow {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 350ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.underline-grow:hover,
+.underline-grow:focus-visible {
+  background-size: 100% 1.5px;
+}
+
+/* Soft card shadow */
+.card-shadow {
+  box-shadow:
+    0 1px 0 rgba(31, 26, 20, 0.04),
+    0 12px 24px -16px rgba(31, 26, 20, 0.18);
+}
+
+/* Page entrance — staggered reveal */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Sticker badge */
+.sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.7rem;
+  border-radius: var(--radius-tag);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
+  background: color-mix(in oklab, var(--color-cream) 70%, white);
+}
+
+/* Reduce motion respect */
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+  .underline-grow {
+    transition: none;
+  }
+}
+
+/* Focus ring — accessible without being ugly */
+:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
